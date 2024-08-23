@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+ 
+ <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="description" content="3D Legal Spaces BIM">
+    <meta name="cesium-sandcastle-labels" content="Showcases, DataSources"><title>BIM LEGAL</title>
+ 
+<!--  <base href="http://193.255.118.241:8080/apps/">   -->
+ 
+  <script type="text/javascript" src="Sandcastle-header.js"></script> 
+  
+<!--   	<script type="text/javascript" src="../ThirdParty/requirejs-2.1.20/require.js"></script>  -->
+
+<!--   <script src="../Build/Cesium/Cesium.js"></script> -->
+  
+      <script
+      type="text/javascript"
+      src="Cesium.js"
+
+    ></script>
+	<!--    <script type="module" src="load-cesium-es6.js"></script> -->
+	
+    <!-- <script type="text/javascript" src="../Build/CesiumUnminified/Cesium.js" nomodule=""></script> -->
+
+    <!-- <script type="module" src="Sandcastle/load-cesium-es6.js"></script> -->
+	
+	<!-- <script type="text/javascript"> -->
+	
+	<!-- require.config({ --><!-- baseUrl : '../Source', --><!-- waitSeconds : 60 --><!-- }); --><!-- </script> -->
+	<!-- <script src="http://193.255.118.241:8080/Build/Cesium/Cesium.js"></script> -->
+	
+
+	
+</head>
+<body class="sandcastle-loading" data-sandcastle-bucket="bucket-requirejs.html">
+
+<style>
+ @import url(bucket.css);
+.cesium-viewer-dbSearchContainer .cesium-dbSearch-input {
+  border: 1px solid #444444;
+  margin: 0;
+  padding: 0 32px 0 0;
+  color: white;
+  vertical-align: middle;
+  width: 0;
+  height: 32px;
+}
+.cesium-viewer-dbSearchContainer:hover .cesium-dbSearch-input {
+  border-color: #aaeeff;
+}
+.cesium-viewer-dbSearchContainer .cesium-dbSearch-input:focus {
+  border-color: #eeaa44;
+  outline-color: invert;
+  outline-style: none;
+  outline-width: medium;
+}
+.cesium-viewer-dbSearchContainer:hover .cesium-dbSearch-input, .cesium-viewer-dbSearchContainer .cesium-dbSearch-input:focus, .cesium-viewer-dbSearchContainer .cesium-dbSearch-input-wide {
+  padding-left: 4px;
+  width: 250px;
+}
+.cesium-dbSearch-searchButton {
+  background-color: #303336;
+  position: absolute;
+  cursor: pointer;
+  width: 32px;
+  top: 1px;
+  right: 1px;
+  height: 30px;
+  vertical-align: middle;
+  fill: #edffff;
+}
+.cesium-dbSearch-searchButton:hover {
+  background-color: #4488bb;
+}
+
+table {
+  border-collapse: collapse;
+}
+table, td, th {
+  border: 1px solid black;
+}
+.popup {
+  border: 1px solid black;
+  padding: 5px;
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  color: black;
+  font-size: 13px;
+}
+
+
+.btn-group button:not(:last-child) {
+  border-bottom: medium none;
+}
+.btn-group button:hover {
+  background-color: #3e8e41;
+}
+
+
+.toolbarSelect	select {
+  position: absolute;
+border: 1px solid black;
+word-break: break-all;
+
+}
+
+
+#toolbars {
+display: table;
+  position: relative;
+  left: 0px;
+  padding: 1px;
+  width: 96%;
+ background: rgba(42, 42, 42, 0.8);
+ border: 1px solid black;
+
+} 
+
+#toolbarPhys {
+  position: relative;
+    top: 2px;
+  left: 2px;
+  width: 48%;
+    padding: 1px;
+ } 
+
+
+#toolbarLegal {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 48%;
+  padding: 1px;
+}
+
+.toolbars button {
+left: 0px;
+  cursor: pointer;
+  display: block;
+   text-align: justify;
+   vertical-align: 55%;
+ }
+ 
+.toolbarPhys button {
+width: 80%;
+}
+
+.toolbarLegal button {
+width: 90%;
+}
+
+
+
+
+
+    #toolbar {
+	
+	  position: fixed;
+	  top: 0px;
+	  left: 0px;
+
+	  width: 250px;
+	  height: 550px;
+        background: rgba(42, 42, 42, 0.8);
+      	  padding: 0.5%;
+        border-radius: 0.5%;
+		display: block;
+    }
+
+	
+select.cesium-button {
+word-break: break-all;
+
+}
+ 
+
+</style>
+
+
+
+
+<div id="cesiumContainer" class="fullSize"></div>
+<div id="loadingOverlay"><h1>Loading...</h1></div>
+
+<div id="toolbar">
+
+          
+    <div display="table" style="border: 1px solid black; padding: 2px;" >
+	<p style="text-align:center; font-family:sans-serif;font-size:10pt;">Adjust height </p>
+    <input type="range" min="0" max="25.0" step="0.5" data-bind="value: height, valueUpdate: 'input'"/>
+    <input type="text" vertical-align="middle" size="7" data-bind="value: height"/>
+	</div>
+	
+	    <div id="toolbarSelect" class="toolbarSelect" style="border: 1px solid black; padding: 2px;" >
+
+        </div>
+
+	
+	<div>
+            <p style="text-align:center; padding: 1px;font-family:sans-serif;font-size:10pt;">Select levels</p>
+			
+			</div>
+
+    <div id="toolbars" class="toolbars">
+        
+        <div id="toolbarPhys" class="toolbarPhys">
+             <div
+                <p style="text-align:center; background:  rgba(88, 88, 88, 0.8); width: 80%; padding-left: 1px;font-family:sans-serif;font-size:10pt;">Physical objects</p>
+				</div>
+        </div>
+        <div id="toolbarLegal" class="toolbarLegal">
+             <div
+                <p style="text-align:center; background:  rgba(88, 88, 88, 0.8); width: 90%; padding: 2px;font-family:sans-serif;font-size:10pt;">Legal spaces</p>
+				</div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+<script id="cesium_sandcastle_script">
+  
+ <!-- Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkN2JjMGI5Ny00OWVjLTQ5M2QtOWU0OC0zMmUzMTIyYTk1YmEiLCJpZCI6ODAxMiwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU1MTAxOTIwMn0.8GomlVYauivNhCR_PijCrnhCWBAwGUKiNLWK3TfWpKU'; -->
+<!--  Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YzhmMjQ4MS05OTMzLTQzODMtYTEzMi1hMDAyZjFkOTUyNWUiLCJpZCI6ODA1MSwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU1MTExODQwMn0.btrYdNobY3Q4r_xhej3i0R_nNTAdpWkyJZ1peV7hico';
+ -->  
+ 
+  Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0NjMyNTQ1YS1hNjE3LTQ2ZjItOGU2My1lMDM0Y2JkNWMwYzQiLCJpZCI6ODA1MSwiaWF0IjoxNjAxMzQwNjc1fQ.75qy84lpW7uQ-IIIPRYFRk__hoXxqQ2hsq5MB3Bn-80';
+
+  function startup(Cesium) {
+    'use strict';
+//Sandcastle_Begin
+
+
+
+var checkSlabs=true;
+var checkWalls=true;
+var checkColumns=true;
+var checkRoof=true;
+var checkParcel=true;
+var checkRooms=false;
+var checkCondominium=false;
+var checkCommon=false;
+var checkAccessories=true;
+//var checkRoofL=false;
+var checkExt=true;
+var checkFootprint=false;
+var check3D=false;
+var checkBuilding=false;
+
+
+
+
+var trueFalse= ["true", "false"];
+
+function Layer (FSetName,FSetVal,check,theme) {
+this.FSetName=FSetName;
+this.FSetVal=FSetVal;
+this.check=check;
+this.theme=theme;
+this.hideText= function() {return ["${" + this.FSetName + "} === '" + this.FSetVal + "'","false"];};
+this.showText= function() {return ["${" +FSetName+ "} === '"  +FSetVal+  "' && ${"  +displayAttribute+  "} === '"  +storeyAttributeVals[storeyId]+  "'", "true"];;};
+this.showTextAll=function() {return ["${" + this.FSetName + "} === '" + this.FSetVal + "'","true"];};
+}
+
+
+var conditionsMatrix=[];
+var conditionsMatrixLegal=[];
+
+function setStyleByBtn () {
+
+ checkSlabs=document.querySelector('#toolbarPhys').getElementsByTagName("input")[0].checked;
+ checkWalls=document.querySelector('#toolbarPhys').getElementsByTagName("input")[1].checked;
+ checkColumns=document.querySelector('#toolbarPhys').getElementsByTagName("input")[2].checked;
+ checkRoof=document.querySelector('#toolbarPhys').getElementsByTagName("input")[3].checked;
+ checkParcel=document.querySelector('#toolbarLegal').getElementsByTagName("input")[0].checked;
+ checkRooms=document.querySelector('#toolbarPhys').getElementsByTagName("input")[4].checked;
+ checkCondominium=document.querySelector('#toolbarLegal').getElementsByTagName("input")[1].checked;
+ checkCommon=document.querySelector('#toolbarLegal').getElementsByTagName("input")[2].checked;
+ checkAccessories=document.querySelector('#toolbarPhys').getElementsByTagName("input")[5].checked;
+ //checkRoofL=document.querySelector('#toolbarLegal').getElementsByTagName("input")[3].checked;
+ checkExt=document.querySelector('#toolbarPhys').getElementsByTagName("input")[6].checked;
+ //checkFootprint=document.querySelector('#toolbarLegal').getElementsByTagName("input")[4].checked;
+ checkFootprint=document.querySelector('#toolbarLegal').getElementsByTagName("input")[3].checked;
+ //check3D=document.querySelector('#toolbarLegal').getElementsByTagName("input")[5].checked;
+//check3D=document.querySelector('#toolbarLegal').getElementsByTagName("input")[4].checked;
+checkBuilding=document.querySelector('#toolbarPhys').getElementsByTagName("input")[7].checked;
+
+
+var walls = new Layer('cesEntityType', 'IfcWall', checkWalls, 'physical');
+var slabs = new Layer('cesEntityType', 'IfcSlab', checkSlabs, 'physical');
+//var columns=  new Layer('cesEntityType', 'IfcColumn', checkColumns, 'physical');
+var columns=  new Layer('cesPhysicalProperty', 'Frame', checkColumns, 'physical');
+var roof=  new Layer('cesEntityType', 'IfcRoof', checkRoof, 'physical');
+var rooms=  new Layer('cesPhysicalProperty', 'Space', checkRooms, 'physical');
+var accessories= new Layer('cesPhysicalProperty', 'Accessories', checkAccessories, 'physical');
+var condominium = new Layer('cesLegalSpaceSubtype', 'Condominium Unit', checkCondominium, 'legal');
+var common= new Layer('cesLegalSpaceSubtype', 'Common Place', checkCommon, 'legal');
+var parcel= new Layer('cesLegalSpaceSubtype', 'Surface parcel', checkParcel, 'legal');
+//var roofL= new Layer('cesLegalSpaceSubtype', 'Roof', checkRoofL, 'legal');
+var external= new Layer('cesPhysicalProperty', 'External Area', checkExt, 'physical');
+var footprint= new Layer('cesLegalSpaceSubtype', 'Building footprint', checkFootprint, 'legal');
+var parcel3d=new Layer('cesLegalSpaceSubtype', '3D parcel', check3D, 'legal');
+var building = new Layer('cesPhysicalProperty', 'Building', checkBuilding, 'physical');
+
+//var layerInstances =[walls, slabs, columns, roof, rooms, accessories, condominium, common, parcel, roofL, external, footprint, parcel3d];
+//var layerInstances =[walls, slabs, columns, roof, rooms, accessories, condominium, common, parcel, external, footprint, parcel3d];
+var layerInstances =[walls, slabs, columns, roof, rooms, accessories, condominium, common, parcel, external, footprint, parcel3d, building];
+
+conditionsMatrix=[];
+conditionsMatrixLegal=[];
+
+console.log(checkCommon);
+console.log(common.check);
+
+for (var i = 0; i < layerInstances.length; ++i) { 
+
+if (layerInstances[i].check===false) {
+	if (layerInstances[i].theme==='physical') 
+	{
+	conditionsMatrix.unshift(layerInstances[i].hideText());
+	}
+	else 
+	{
+	conditionsMatrixLegal.unshift(layerInstances[i].hideText());
+	}
+}
+else {
+
+if (!Cesium.defined(storeyId) || storeyId===0) 
+{
+	if (layerInstances[i].theme==='physical') 
+	{
+	conditionsMatrix.push(layerInstances[i].showTextAll());
+	}
+	else
+	{
+	conditionsMatrixLegal.push(layerInstances[i].showTextAll());
+	}
+
+
+}
+
+else 
+{
+	if (layerInstances[i].theme==='physical') 
+	{
+	conditionsMatrix.push(layerInstances[i].showText());
+	}
+	else
+	{
+	conditionsMatrixLegal.push(layerInstances[i].showText());
+	}
+}
+}
+}
+
+conditionsMatrix.push(trueFalse);
+conditionsMatrixLegal.push(trueFalse);
+
+
+}
+
+<!-- var viewer = new Cesium.Viewer("cesiumContainer", { -->
+  <!-- terrainProvider: new Cesium.CesiumTerrainProvider({ -->
+    <!-- url: Cesium.IonResource.fromAssetId(1), -->
+  <!-- }), -->
+<!-- }); -->
+ 
+    var viewer = new Cesium.Viewer('cesiumContainer');
+	var scene = viewer.scene;
+	viewer.scene.globe.depthTestAgainstTerrain = true;
+
+	
+	// add Loading message
+var loadingDiv = document.getElementById('loadingOverlay') ;
+loadingDiv.style.display = "block" ;	
+
+var dataSourcesLoaded = true;
+var originalFunction = viewer.dataSourceDisplay.update;
+var loadingJson = false ;
+
+viewer.dataSourceDisplay.update = function(time) {		
+	dataSourcesLoaded = originalFunction.apply(viewer.dataSourceDisplay, [time]);
+	if ( Cesium.defined(selected.feature) || loadingJson ) { 
+		return dataSourcesLoaded; 
+	}
+
+	if ( !dataSourcesLoaded) {
+		loadingDiv.style.display = "block" ;
+	}
+	else {
+		loadingDiv.style.display = "none" ;		
+	}
+	return dataSourcesLoaded;
+};
+
+
+
+
+var viewModel = {
+    height: 0.2
+};
+
+Cesium.knockout.track(viewModel);
+
+var toolbar = document.getElementById('toolbar');
+Cesium.knockout.applyBindings(viewModel, toolbar);
+
+
+
+
+
+// add first tileset
+	 var tileset=scene.primitives.add ( 
+	new Cesium.Cesium3DTileset({ 
+	 url: 'tilesets/tileset00/tileset.json' 
+	 }) 
+	); 
+	
+	
+<!-- var tileset = viewer.scene.primitives.add( -->
+ <!-- new Cesium.Cesium3DTileset({ -->
+ <!-- url: Cesium.IonResource.fromAssetId(160550), -->
+ <!--  }) -->
+<!--  ); -->
+	
+	
+<!-- var currentState=[]; -->
+var stylingAttribute = "cesEntityType";
+var displayAttribute = "ifc_parent_id";
+var stylingAttribute2="cesPhysicalProperty";
+var stylingAttribute3 = "cesLegalSpaceSubtype";
+
+<!-- var showPhysicalinit=[]; -->
+<!-- var showLegalinit=[]; -->
+<!-- var showLegalinit1; -->
+
+
+	tileset.readyPromise.then(function(tileset) {
+    viewer.zoomTo(tileset, new Cesium.HeadingPitchRange(1.5, -0.4, tileset.boundingSphere.radius * 3.0));
+
+    // Override the default home button = reset to location of tileset instead of to world globe
+    viewer.homeButton.viewModel.command.beforeExecute.addEventListener(function (e) {
+	e.cancel = true;
+	viewer.zoomTo(tileset, new Cesium.HeadingPitchRange(1.5, -0.4, tileset.boundingSphere.radius * 3.0));
+	
+
+});
+
+
+
+// styling first tileset
+
+var properties = tileset.properties; 
+if (Cesium.defined(properties) && Cesium.defined(properties[stylingAttribute])) {
+tileset.style = new Cesium.Cesium3DTileStyle({
+color: {
+conditions: colorPhysical
+}
+});
+}
+
+// show layers on off
+setStyleByBtn();
+console.log(conditionsMatrix);
+tileset.style.show={conditions:
+conditionsMatrix
+};
+
+}).otherwise(function(error) {
+    console.log(error);
+});
+
+var colorPhysical=[	  ["${" + stylingAttribute + "} === null", "color('white')"],
+["${" + stylingAttribute + "} === 'IfcRoof'", "rgb(99, 20, 40)"],
+//["${" + stylingAttribute + "} === 'IfcColumn'","rgb(220, 220, 220)"],
+["${" + stylingAttribute2 + "} === 'Frame'","rgb(220, 220, 220)"],
+["${" + stylingAttribute + "} === 'IfcWall'", "rgb(230, 230, 225)"],
+//["${" + stylingAttribute + "} === 'IfcSlab'", "rgb(81, 91, 101)"],
+["${" + stylingAttribute + "} === 'IfcSlab'", "rgb(225, 225, 225)"],
+["${" + stylingAttribute + "} === 'IfcWindow'", "rgba(77, 77, 77,0.4)"],
+["${" + stylingAttribute + "} === 'IfcDoor'", "rgba(77, 77, 77,0.8)"],
+["${" + stylingAttribute2 + "} === 'Accessories'", "rgb(81, 122, 136)"],
+["${" + stylingAttribute2 + "} === 'Space'", "rgb(222, 138, 136, 0.9)"],
+["${" + stylingAttribute2 + "} === 'Building'", "rgb(100, 100, 100, 0.5)"],
+
+["true", "rgb(93, 40, 30)"]		];
+
+
+
+
+
+// add second tileset for legal spaces
+
+	 var tilesetLegal=scene.primitives.add ( 
+	new Cesium.Cesium3DTileset({ 
+	url: 'tilesets/tilesetLegal/tileset.json' 
+	}) 
+	 ); 
+	
+	
+<!-- 	var tilesetLegal = viewer.scene.primitives.add( -->
+<!--   new Cesium.Cesium3DTileset({ -->
+ <!--    url: Cesium.IonResource.fromAssetId(160551), -->
+<!--   }) -->
+<!--  ); -->
+	
+	
+	
+	
+	// styling second tileset
+
+tilesetLegal.readyPromise.then(function(tilesetLegal) {
+var properties = tilesetLegal.properties; 
+tilesetLegal.style = new Cesium.Cesium3DTileStyle({
+color : {
+conditions: colorLegal
+}
+	});
+	
+// show layers on off
+
+						
+setStyleByBtn();
+console.log(conditionsMatrixLegal);
+tilesetLegal.style.show={conditions:
+conditionsMatrixLegal
+};
+
+
+
+}).otherwise(function(error) {
+    console.log(error);
+});
+
+var colorLegal=[
+["${" + stylingAttribute3 + "} === 'Condominium Unit'", "rgba(222, 122, 136,0.5)"],
+["${" + stylingAttribute3 + "} === 'Common Place'", "rgba(100, 150, 190,0.5)"],
+["${" + stylingAttribute3 + "} === '3D parcel'", "rgba(80, 137, 120,0.5)"],
+//["${" + stylingAttribute3 + "} === 'Surface parcel'", "rgba(81, 122, 120,1)"],
+["${" + stylingAttribute3 + "} === 'Surface parcel'", "rgba(93, 40, 30,0.7)"],
+["${" + stylingAttribute3 + "} === 'Building footprint'", "rgba(166, 100, 100,1)"],
+
+
+["true", "rgb(93, 40, 30)"]	
+	];
+	
+	
+	
+
+	
+Cesium.knockout.getObservable(viewModel, 'height').subscribe(function(height) {
+    height = Number(height);
+    if (isNaN(height)) {
+        return;
+    }
+
+    var cartographic = Cesium.Cartographic.fromCartesian(tileset.boundingSphere.center);
+    var surface = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0.0);
+    var offset = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, height);
+    var translation = Cesium.Cartesian3.subtract(offset, surface, new Cesium.Cartesian3());
+    tileset.modelMatrix = Cesium.Matrix4.fromTranslation(translation);
+	  tilesetLegal.modelMatrix = Cesium.Matrix4.fromTranslation(translation);
+});
+
+
+
+var displayNames=['No style', 'Basement Level', 'Ground Level', 'First Level', 'Second Level', 'Attic Level'];
+var displayAttributeValues=["3Kv40YSfLFseVd_", "3Kv40YSfLFseVd_Y9RwXhc", "3Kv40YSfLFseVd_Y9RwJu1", "3Kv40YSfLFseVd_Y9RwJCd", "3Kv40YSfLFseVd_Y9RwXNT", "3Kv40YSfLFseVd_Y9RwXII"];
+var stylingAttributeValues=["IfcSlab", "IfcWall"];
+var storeyAttributeVals=["3Kv40YSfLFseVd_", "3Kv40YSfLFseVd_Y9RwXhc", "3Kv40YSfLFseVd_Y9RwJu1", "3Kv40YSfLFseVd_Y9RwJCd", "3Kv40YSfLFseVd_Y9RwXNT", "3Kv40YSfLFseVd_Y9RwXII"];
+
+var storeyExpShow=[];
+//define storey show expressions
+function storeyExp (storeyId) {
+return (storeyExpShow=["${" + displayAttribute + "} === '" + storeyAttributeVals[storeyId] + "'", "true"]);
+}
+
+var storeyId;
+
+function Level(storeyId) {
+  
+setStyleByBtn();
+
+tileset.style=new Cesium.Cesium3DTileStyle({
+  show: {
+		conditions: 
+		conditionsMatrix
+	
+  }
+  });
+ 
+
+tilesetLegal.style=new Cesium.Cesium3DTileStyle({
+  show: {
+		conditions: 
+		conditionsMatrixLegal
+	
+  }
+  });
+  
+
+ console.log(tileset.style.show.conditionsExpression.conditions);
+ console.log(tilesetLegal.style.show.conditionsExpression.conditions);	
+
+ tileset.style.color={ conditions: colorPhysical}
+ tilesetLegal.style.color={ conditions: colorLegal}
+
+}
+
+Sandcastle.addToolbarMenu([
+{
+    text : 'Select building levels to display...',
+   
+}, 
+{
+    text : 'All Levels',
+    onselect : function() {
+	 storeyId=0;
+     Level(storeyId);
+    }
+}, 
+
+{
+    text : 'Basement Level',
+    onselect : function() {
+	 storeyId=1;
+        Level(storeyId);
+    }
+},  {
+    text : 'Ground Level',
+    onselect : function() {
+	
+	 storeyId=2;
+        Level(storeyId);
+    }
+	
+	},  {
+    text : 'First Level',
+    onselect : function() {
+	 storeyId=3;
+        Level(storeyId);
+    }
+},  {
+    text : 'Second Level',
+    onselect : function() {
+	 storeyId=4;
+        Level(storeyId);
+    }
+}, 
+ {
+    text : 'Attic Level',
+    onselect : function() {
+	 storeyId=5;
+        Level(storeyId);
+    }
+}
+], 'toolbarSelect');
+
+
+
+
+  
+ function newStyle (){
+
+setStyleByBtn ();
+tileset.style=new Cesium.Cesium3DTileStyle({
+  show: {
+		conditions: 
+		conditionsMatrix
+	
+  }
+  });
+  
+tileset.style.color={ conditions: colorPhysical}
+
+
+tilesetLegal.style=new Cesium.Cesium3DTileStyle({
+  show: {
+		conditions: 
+		conditionsMatrixLegal
+	
+  }
+  });
+  
+  
+tilesetLegal.style.color={ conditions: colorLegal}
+
+console.log(tileset.style.show.conditionsExpression.conditions);
+console.log(tilesetLegal.style.show.conditionsExpression.conditions);	
+  
+ }
+ 
+ 
+ 
+
+
+Sandcastle.addToggleButton('Slabs', checkSlabs, function(checkSlabs) {
+newStyle();
+}, 'toolbarPhys'
+);
+
+
+
+Sandcastle.addToggleButton('Walls', checkWalls, function(checkWalls) {
+newStyle();
+}, 'toolbarPhys'
+);
+
+
+
+Sandcastle.addToggleButton('Columns and Beams', checkColumns, function(checkColumns) {
+newStyle();
+}, 'toolbarPhys'
+);
+
+
+Sandcastle.addToggleButton('Roof', checkRoof, function(checkRoof) {
+newStyle();
+}, 'toolbarPhys'
+);
+
+
+
+var checkbox4=Sandcastle.addToggleButton('Parcel', checkParcel, function(checkParcel) {
+newStyle();
+}, 'toolbarLegal'
+);
+
+
+var checkbox5=Sandcastle.addToggleButton('Rooms', checkRooms, function(checkRooms) {
+newStyle();
+}, 'toolbarPhys'
+);
+
+
+var checkbox6=Sandcastle.addToggleButton('Condominium Units', checkCondominium, function(checkCondominium) {
+
+newStyle();
+}, 'toolbarLegal'
+);
+
+var checkbox7=Sandcastle.addToggleButton('Common Spaces', checkCommon, function(checkCommon) {
+newStyle();
+}, 'toolbarLegal'
+);
+
+var checkbox8=Sandcastle.addToggleButton('Accessories', checkAccessories, function(checkAccessories) {
+newStyle();
+}, 'toolbarPhys'
+);
+
+
+//var checkbox9=Sandcastle.addToggleButton('Roof', checkRoofL, function(checkRoofL) {
+//newStyle();
+//}, 'toolbarLegal'
+//);
+
+var checkbox10=Sandcastle.addToggleButton('External area', checkExt, function(checkExt) {
+newStyle();
+}, 'toolbarPhys'
+);
+
+var checkbox11=Sandcastle.addToggleButton('Building footprint', checkFootprint, function(checkFootprint) {
+newStyle();
+}, 'toolbarLegal'
+);
+
+//var checkbox12=Sandcastle.addToggleButton('Permitted construction space', check3D, function(check3D) {
+//newStyle();
+//}, 'toolbarLegal'
+//);
+
+
+var checkbox13=Sandcastle.addToggleButton('Building', checkBuilding, function(checkBuilding) {
+newStyle();
+}, 'toolbarPhys'
+);
+
+
+
+
+
+var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+
+// When a feature is left clicked, print its class name and properties
+handler.setInputAction(function(movement) {
+    var feature = viewer.scene.pick(movement.position);
+    if (!Cesium.defined(feature)) {
+        return;
+    }
+    console.log('Class: ' + feature.getExactClassName());
+    console.log('Properties:');
+    var propertyNames = feature.getPropertyNames();
+    var length = propertyNames.length;
+    for (var i = 0; i < length; ++i) {
+        var name = propertyNames[i];
+        var value = feature.getProperty(name);
+        console.log('  ' + name + ': ' + value);
+    }
+}, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+
+
+// HTML overlay for showing feature name on mouseover
+var nameOverlay = document.createElement('div');
+viewer.container.appendChild(nameOverlay);
+nameOverlay.className = 'backdrop';
+nameOverlay.style.display = 'none';
+nameOverlay.style.position = 'absolute';
+nameOverlay.style.bottom = '0';
+nameOverlay.style.left = '0';
+nameOverlay.style['pointer-events'] = 'none';
+nameOverlay.style.padding = '50x';
+nameOverlay.style.backgroundColor = 'black';
+
+
+var selected = {
+    feature: undefined,
+    originalColor: new Cesium.Color()
+};
+
+var selectedEntity = new Cesium.Entity();
+
+var clickHandler = viewer.screenSpaceEventHandler.getInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+var highlighted = {
+    feature : undefined,
+    originalColor : new Cesium.Color()
+	
+
+};
+
+viewer.screenSpaceEventHandler.setInputAction(function onMouseMove(movement) {
+    // If a feature was previously highlighted, undo the highlight
+    if (Cesium.defined(highlighted.feature)) {
+        highlighted.feature.color = highlighted.originalColor;
+        highlighted.feature = undefined;
+    }
+    // Pick a new feature
+    var pickedFeature = viewer.scene.pick(movement.endPosition);
+    if (!Cesium.defined(pickedFeature)) {
+        nameOverlay.style.display = 'none';
+        return;
+    }
+    // A feature was picked, so show it's overlay content
+    nameOverlay.style.display = 'block';
+    nameOverlay.style.bottom = viewer.canvas.clientHeight - movement.endPosition.y + 'px';
+    nameOverlay.style.left = movement.endPosition.x + 'px';
+    var name = pickedFeature.getProperty('cesEntityType');
+    if (!Cesium.defined(name)) {
+        name = pickedFeature.getProperty('cesEntityType');
+    }
+    nameOverlay.textContent = name;
+    // Highlight the feature if it's not already selected.
+    if (pickedFeature !== selected.feature) {
+        highlighted.feature = pickedFeature;
+        Cesium.Color.clone(pickedFeature.color, highlighted.originalColor);
+        pickedFeature.color = Cesium.Color.TURQUOISE;
+    }
+    }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+    // Color a feature on selection and show metadata in the InfoBox.
+    viewer.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
+        // If a feature was previously selected, undo the highlight
+        if (Cesium.defined(selected.feature)) {
+            selected.feature.color = selected.originalColor;
+            selected.feature = undefined;
+        }
+        // Pick a new feature
+        var pickedFeature = viewer.scene.pick(movement.position);
+        if (!Cesium.defined(pickedFeature)) {
+            clickHandler(movement);
+            return;
+        }
+        // Select the feature if it's not already selected
+        if (selected.feature === pickedFeature) {
+            return;
+        }
+        selected.feature = pickedFeature;
+        // Save the selected feature's original color
+        if (pickedFeature === highlighted.feature) {
+            Cesium.Color.clone(highlighted.originalColor, selected.originalColor);
+            highlighted.feature = undefined;
+        } else {
+            Cesium.Color.clone(pickedFeature.color, selected.originalColor);
+        }
+        // Highlight newly selected feature
+        pickedFeature.color = Cesium.Color.RED;
+        // Set feature infobox description
+		
+		
+		if (pickedFeature.tileset===tileset) {
+		
+		//walls
+		
+		if (pickedFeature.getProperty('cesEntityType')=="IfcWall")		{
+		var featureName = pickedFeature.getProperty('cesEntityType');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Global Id</th><td>' + pickedFeature.getProperty('GlobalId') + '</td></tr>' +
+									  '<tr><th>Legal space type</th><td>' + pickedFeature.getProperty('cesLegalSpaceType') + '</td></tr>' +
+                                     '<tr><th>Wall type</th><td>' + pickedFeature.getProperty('cesLegalSpaceSubtype') + '</td></tr>' +
+									 
+									 '<tr><th>Width (m)</th><td>' + pickedFeature.getProperty('Width') + '</td></tr>' +
+                                     '<tr><th>Footprint Area (m&sup2)</th><td>' + pickedFeature.getProperty('wallAreaFootprint') + '</td></tr>' +
+                                     '<tr><th>Is external</th><td>' + pickedFeature.getProperty('IsExternal') + '</td></tr>' +
+									 '<tr><th>Load bearing</th><td>' + pickedFeature.getProperty('LoadBearing') + '</td></tr>' +						 
+                                     '</tbody></table>';
+									 }
+									 
+		//slabs
+		
+		else if (pickedFeature.getProperty('cesEntityType')=="IfcSlab")		{
+		var featureName = pickedFeature.getProperty('cesEntityType');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Global Id</th><td>' + pickedFeature.getProperty('GlobalId') + '</td></tr>' +
+                                     '<tr><th>Legal space type</th><td>' + pickedFeature.getProperty('cesLegalSpaceType') + '</td></tr>' +
+									 '<tr><th>Level name</th><td>' + pickedFeature.getProperty('levelName') + '</td></tr>' +		
+									 '<tr><th>Elevation from ground (m)</th><td>' + pickedFeature.getProperty('elevationRelative') + '</td></tr>' +		
+
+                                     '</tbody></table>';
+									 }
+									 
+		//columns
+	else if (pickedFeature.getProperty('cesPhysicalProperty')=="Frame")		{
+		var featureName = pickedFeature.getProperty('cesEntityType');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Global Id</th><td>' + pickedFeature.getProperty('GlobalId') + '</td></tr>' +
+									 '<tr><th>Type</th><td>' + pickedFeature.getProperty('cesPhysicalProperty') + '</td></tr>' +
+                                     '<tr><th>Legal space type</th><td>' + pickedFeature.getProperty('cesLegalSpaceType') + '</td></tr>' +		 
+									 '<tr><th>Volume (m&sup3)</th><td>' + pickedFeature.getProperty('Volume') + '</td></tr>' +
+									 '<tr><th>Level</th><td>' + pickedFeature.getProperty('levelName') + '</td></tr>' +
+									 '<tr><th>Column size (mm) </th><td>' + pickedFeature.getProperty('columnSize') + '</td></tr>' 					 
+                                     '</tbody></table>';
+									 }
+									 
+		//roof
+		else if (pickedFeature.getProperty('cesEntityType')=="IfcRoof")		{
+		var featureName = pickedFeature.getProperty('cesEntityType');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Global Id</th><td>' + pickedFeature.getProperty('GlobalId') + '</td></tr>' +
+                                     '<tr><th>Type</th><td>' + pickedFeature.getProperty('cesLegalSpaceSubtype') + '</td></tr>' +
+									 '<tr><th>Legal space type</th><td>' + pickedFeature.getProperty('cesLegalSpaceType') + '</td></tr>' +
+									 '<tr><th>Height</th><td>' + pickedFeature.getProperty('topElevation') + '</td></tr>' +
+
+									                                      '</tbody></table>';
+
+									 }
+
+		// rooms									 
+		else if (pickedFeature.getProperty('cesPhysicalProperty')=="Space")		{
+		var featureName = pickedFeature.getProperty('cesPhysicalProperty');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Global Id</th><td>' + pickedFeature.getProperty('GlobalId') + '</td></tr>' +
+                                     '<tr><th>Legal space type</th><td>' + pickedFeature.getProperty('cesLegalSpaceSubtype') + '</td></tr>' +
+									 '<tr><th>In legal space</th><td>' + pickedFeature.getProperty('Zone') + '</td></tr>' +
+									 '<tr><th>Volume (m&sup3)</th><td>' + pickedFeature.getProperty('NetVolumeSpace') + '</td></tr>' +
+                                     '<tr><th>Footprint Area (m&sup2)</th><td>' + pickedFeature.getProperty('NetFloorAreaSpace') + '</td></tr>' +
+									 '<tr><th>Use type</th><td>' + pickedFeature.getProperty('Space Type') + '</td></tr>' +		
+									 '<tr><th>Level</th><td>' + pickedFeature.getProperty('levelName') + '</td></tr>' +
+                                     '</tbody></table>';
+									 }							 
+		// accessories					 
+		else if (pickedFeature.getProperty('cesPhysicalProperty')=="Accessories")		{
+		var featureName = pickedFeature.getProperty('cesEntityType');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Global Id</th><td>' + pickedFeature.getProperty('GlobalId') + '</td></tr>' +
+									 '<tr><th>Accessory type</th><td>' + pickedFeature.getProperty('cesEntityType') + '</td></tr>' +
+									 '<tr><th>Level</th><td>' + pickedFeature.getProperty('levelName') + '</td></tr>' +
+                                     '</tbody></table>';
+									 }
+									 
+		else if (pickedFeature.getProperty('cesPhysicalProperty')=="External Area")		{
+		var featureName = pickedFeature.getProperty('cesEntityType');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Global Id</th><td>' + pickedFeature.getProperty('GlobalId') + '</td></tr>' +
+									 
+                                     '<tr><th>Type</th><td>' + pickedFeature.getProperty('cesLegalSpaceSubtype') + '</td></tr>' +
+									 '<tr><th>Legal space type</th><td>' + pickedFeature.getProperty('cesLegalSpaceType') + '</td></tr>' +
+                                     '<tr><th> Area (m&sup2)</th><td>' + pickedFeature.getProperty('area') + '</td></tr>' +
+                                	 
+                                     '</tbody></table>';
+									 }
+									 
+									 
+				}
+				else if (pickedFeature.tileset===tilesetLegal) {
+//condominium units
+ if (pickedFeature.getProperty('cesLegalSpaceSubtype')=="Condominium Unit")		{
+		var featureName = pickedFeature.getProperty('cesLegalSpaceSubtype');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Global Id</th><td>' + pickedFeature.getProperty('GlobalId') + '</td></tr>' +
+                                     '<tr><th>Type</th><td>' + pickedFeature.getProperty('cesLegalSpaceSubtype') + '</td></tr>' +
+									  '<tr><th>Name</th><td>' + pickedFeature.getProperty('Zone') + '</td></tr>' +
+									 '<tr><th>Volume (m&sup3)</th><td>' + pickedFeature.getProperty('VolumeSpace') + '</td></tr>' +
+									 '<tr><th>Share in common spaces</th><td>' + pickedFeature.getProperty('share') + '</td></tr>' +
+                                     '<tr><th>Footprint Area (m&sup2)</th><td>' + pickedFeature.getProperty('footprintArea_CAL') + '</td></tr>' +
+									 '<tr><th>Level</th><td>' + pickedFeature.getProperty('levelName') + '</td></tr>' +
+													 
+                                     '</tbody></table>';
+									 }
+									 
+	// common places
+	else if (pickedFeature.getProperty('cesLegalSpaceSubtype')=="Common Place")		{
+		var featureName = pickedFeature.getProperty('cesEntityType');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Global Id</th><td>' + pickedFeature.getProperty('GlobalId') + '</td></tr>' +
+                                     '<tr><th>Type</th><td>' + pickedFeature.getProperty('cesLegalSpaceSubtype') + '</td></tr>' +
+									'<tr><th>Name</th><td>' + pickedFeature.getProperty('Zone') + '</td></tr>' +
+									 '<tr><th>Volume (m&sup3)</th><td>' + pickedFeature.getProperty('Volume') + '</td></tr>' +
+                                     '<tr><th>Footprint Area (m&sup2)</th><td>' + pickedFeature.getProperty('footprintArea_CAL') + '</td></tr>' +
+                                     '<tr><th>Level</th><td>' + pickedFeature.getProperty('levelName') + '</td></tr>' +
+
+									 
+									 
+                                     '</tbody></table>';
+									 }	
+									 
+		//surface parcel						 
+		else if (pickedFeature.getProperty('cesLegalSpaceSubtype')=="Surface parcel")		{
+		var featureName = pickedFeature.getProperty('cesEntityType');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Type</th><td>' + pickedFeature.getProperty('cesLegalSpaceSubtype') + '</td></tr>' +
+									 '<tr><th>Property ID</th><td>' + pickedFeature.getProperty('propertyID') + '</td></tr>' +
+									 '<tr><th>Lot number</th><td>' + pickedFeature.getProperty('lotNumber') + '</td></tr>' +
+									 '<tr><th>Parcel number</th><td>' + pickedFeature.getProperty('parcelNumber') + '</td></tr>' +
+									  '<tr><th>Sheet number</th><td>' + pickedFeature.getProperty('sheetNumber') + '</td></tr>' +
+
+									  '<tr><th>District</th><td>' + pickedFeature.getProperty('district') + '</td></tr>' +
+									  '<tr><th>City</th><td>' + pickedFeature.getProperty('city') + '</td></tr>' +
+
+                                     '<tr><th> Area (m&sup2)</th><td>' + pickedFeature.getProperty('area') + '</td></tr>' +
+                                     '<tr><th>Use Type</th><td>' + pickedFeature.getProperty('useType') + '</td></tr>' +
+                                     '</tbody></table>';
+									 }
+									 
+		else if (pickedFeature.getProperty('cesLegalSpaceSubtype')=="Roof")		{
+		var featureName = pickedFeature.getProperty('cesEntityType');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Global Id</th><td>' + pickedFeature.getProperty('GlobalId') + '</td></tr>' +
+                                     '<tr><th>Type</th><td>' + pickedFeature.getProperty('cesLegalSpaceSubtype') + '</td></tr>' +
+									 '<tr><th>Legal space type</th><td>' + pickedFeature.getProperty('cesLegalSpaceType') + '</td></tr>' +
+                                     '</tbody></table>';
+ 
+									 }
+									 
+		
+
+else if (pickedFeature.getProperty('cesLegalSpaceSubtype')=="Building footprint")		{
+		var featureName = pickedFeature.getProperty('cesEntityType');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th>Global Id</th><td>' + pickedFeature.getProperty('GlobalId') + '</td></tr>' +
+									'<tr><th>Area (m&sup2)</th><td>' + pickedFeature.getProperty('area') + '</td></tr>' +
+
+                                     '<tr><th>Property ID</th><td>' + pickedFeature.getProperty('propertyID') + '</td></tr>' +
+									 '<tr><th>Lot number</th><td>' + pickedFeature.getProperty('lotNumber') + '</td></tr>' +
+									 '<tr><th>Parcel number</th><td>' + pickedFeature.getProperty('parcelNumber') + '</td></tr>' +
+									  '<tr><th>Sheet number</th><td>' + pickedFeature.getProperty('sheetNumber') + '</td></tr>' +
+
+									  '<tr><th>District</th><td>' + pickedFeature.getProperty('district') + '</td></tr>' +
+									  '<tr><th>City</th><td>' + pickedFeature.getProperty('city') + '</td></tr>' +				 
+                                     '</tbody></table>';
+									 }
+else if (pickedFeature.getProperty('cesLegalSpaceSubtype')=="3D parcel")		{
+		var featureName = pickedFeature.getProperty('cesEntityType');
+        selectedEntity.name = featureName;
+        selectedEntity.description = 'Loading <div class="cesium-infoBox-loading"></div>';
+        viewer.selectedEntity = selectedEntity;
+       selectedEntity.description = '<table class="cesium-infoBox-defaultTable"><tbody>' +
+                                     '<tr><th> Type</th><td>' + pickedFeature.getProperty('cesLegalSpaceSubtype') + '</td></tr>' +
+									 '<tr><th>Property ID</th><td>' + pickedFeature.getProperty('propertyID') + '</td></tr>' +
+									 '<tr><th>Lot number</th><td>' + pickedFeature.getProperty('lotNumber') + '</td></tr>' +
+									 '<tr><th>Parcel number</th><td>' + pickedFeature.getProperty('parcelNumber') + '</td></tr>' +
+									  '<tr><th>Sheet number</th><td>' + pickedFeature.getProperty('sheetNumber') + '</td></tr>' +
+
+									  '<tr><th>District</th><td>' + pickedFeature.getProperty('district') + '</td></tr>' +
+									  '<tr><th>City</th><td>' + pickedFeature.getProperty('city') + '</td></tr>' +
+
+                                '<tr><th>Volume (m&sup3)</th><td>' + pickedFeature.getProperty('Volume') + '</td></tr>' +
+
+                                     '<tr><th>Use Type</th><td>' + pickedFeature.getProperty('useType') + '</td></tr>' +
+                                     '</tbody></table>';
+									 }
+
+									 
+		}							 
+		else  	{				 
+									 
+									 }
+
+				
+					
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+	
+
+//Sandcastle_End
+    Sandcastle.finishedLoading();
+}
+
+if (typeof Cesium !== "undefined") {
+    startup(Cesium);
+} else if (typeof require === "function") {
+    require(["Cesium"], startup);
+}
+	
+	
+ </script>
+</body>
+</html>

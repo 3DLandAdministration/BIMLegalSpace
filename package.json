@@ -1,0 +1,23 @@
+{
+  "name": "sandcastle",
+  "version": "1.0.0",
+  "main": "CesiumSandcastle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+"start": "http-server"
+  },
+  "engines": {
+    "node": "12.18.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "request": "^2.88.2",
+    "yargs": "^16.0.3"
+  },
+  "devDependencies": {},
+  "description": ""
+}
